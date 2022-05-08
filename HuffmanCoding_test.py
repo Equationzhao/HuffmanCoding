@@ -18,5 +18,6 @@ class TestHuffmanCoding(unittest.TestCase):
         _, res = h._Huffman__GetFreq(string)
         self.assertEqual(res, freq_list)
 
+
 if __name__ == '__main__':
     unittest.main()

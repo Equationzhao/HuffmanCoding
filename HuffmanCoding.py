@@ -40,6 +40,10 @@ class Huffman:
 
         return char_list, freq_list
 
+    def GetCharListAndFreqList(self, chars):
+        char_list, freq_list = self.__GetFreq(chars)
+        return char_list, freq_list
+
     @staticmethod
     def __FindMin(trees: list) -> int:
         if len(trees) == 0:
@@ -95,6 +99,9 @@ class Huffman:
         char_list, freq_list = self.__GetFreq(chars)
         return self.__CreateHuffmanTree(self, char_list, freq_list)
 
+    def CreateHuffmanTree2(self, char_list, freq_list) -> list:
+        return self.__CreateHuffmanTree(self, char_list, freq_list)
+
     # input tree
     # output code
     @staticmethod
@@ -119,6 +126,10 @@ class Huffman:
         trees = self.CreateHuffmanTree(chars)
         return self.__GenerateHuffmanCode(trees)
 
+    def GenerateHuffmanCode2(self, char_list, freq_list, chars) -> list:
+        trees = self.CreateHuffmanTree2(char_list, freq_list, chars)
+        return self.__GenerateHuffmanCode(trees)
+
     # input chars
     # output code
     def Encode(self, chars: str):
@@ -126,6 +137,21 @@ class Huffman:
         ch2huf = {}
 
         char_list, freq_list = self.__GetFreq(chars)
+        trees = self.__CreateHuffmanTree(self, char_list, freq_list)
+        codes = self.__GenerateHuffmanCode(trees)
+
+        for i in range(len(char_list)):
+            ch2huf.setdefault(char_list[i], codes[i])
+
+        for i in range(len(chars)):
+            res += ch2huf[chars[i]]
+
+        return res
+
+    def Encode2(self, char_list: list, freq_list: list, chars: str):
+        res = ""
+        ch2huf = {}
+
         trees = self.__CreateHuffmanTree(self, char_list, freq_list)
         codes = self.__GenerateHuffmanCode(trees)
 
@@ -151,3 +177,7 @@ class Huffman:
                 Id = len(vTrees) - 1
 
         return res
+
+    def Decode2(self, given_chars, given_Freq, encoded2):
+        vTrees = self.__CreateHuffmanTree(self, given_chars, given_Freq)
+        return self.Decode(vTrees, encoded2)
