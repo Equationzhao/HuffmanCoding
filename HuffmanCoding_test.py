@@ -18,6 +18,15 @@ class TestHuffmanCoding(unittest.TestCase):
         _, res = h._Huffman__GetFreq(string)
         self.assertEqual(res, freq_list)
 
+    def test_CreateCh2huf(self):
+        c = HuffmanCoding.Huffman()
+        char_list = ["A", "B", "C", "D", "E", "F"]
+        freq_list = [25, 25, 20, 15, 10, 5]
+        res = {'A': '01', 'B': '10', 'C': '00', 'D': '110', 'E': '1111', 'F': '1110'}
+        ch2huf = c.CreateCh2huf(char_list, freq_list)
+
+        self.assertEqual(ch2huf, res)
+
     def test_Total(self):
         c = HuffmanCoding.Huffman()
 
