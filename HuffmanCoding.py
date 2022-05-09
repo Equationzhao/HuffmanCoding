@@ -1,6 +1,6 @@
 # Author: Equationzhao
 # Time: 2022/5/6
-# Usage: python3 HuffmanCoding.py
+# Usage: import HuffmanCoding
 # Module: HuffmanCoding
 # Description: This is a python3 program that can encode and decode a string using Huffman coding.
 
@@ -109,6 +109,7 @@ class Huffman:
     # output code
     @staticmethod
     def __GenerateHuffmanCode(trees: list) -> list:
+
         codes = []
         for i in range(len(trees)):
             code = ""
@@ -153,18 +154,20 @@ class Huffman:
 
     def Encode2(self, char_list: list, freq_list: list, chars: str):
         res = ""
-        ch2huf = {}
-
-        trees = self.__CreateHuffmanTree(self, char_list, freq_list)
-        codes = self.__GenerateHuffmanCode(trees)
-
-        for i in range(len(char_list)):
-            ch2huf.setdefault(char_list[i], codes[i])
+        ch2huf = self.CreateCh2huf(char_list, freq_list)
 
         for i in range(len(chars)):
             res += ch2huf[chars[i]]
 
         return res
+
+    def CreateCh2huf(self, char_list, freq_list):
+        ch2huf = {}
+        trees = self.__CreateHuffmanTree(self, char_list, freq_list)
+        codes = self.__GenerateHuffmanCode(trees)
+        for i in range(len(char_list)):
+            ch2huf.setdefault(char_list[i], codes[i])
+        return ch2huf
 
     @staticmethod
     def Decode(vtrees, code):
