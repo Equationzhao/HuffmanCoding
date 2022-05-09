@@ -1,34 +1,62 @@
-import HuffmanCoding
+from HuffmanCoding import encode, decode
 
-c = HuffmanCoding.Huffman()
+import sys
 
-string = input("Enter a string: ")
+mode = ""
 
-# Create Huffman tree of any string
-tree = c.CreateHuffmanTree(string)
-# Encode the string
-encoded = c.Encode(string)
-print(encoded)
-# Use the encoded string and Huffman tree to decode the string
-decoded = c.Decode(tree, encoded)
-print(decoded)
-# Check if the decoded string is the same as the original
-print(decoded == string)
+if len(sys.argv) >= 2:
+    mode = sys.argv[1]
+else:
+    print("Bad argv\nuse \'python3 main.py -h\' for help")
+    sys.exit(1)
 
-################################################################
+if mode == "-e":
+    if len(sys.argv) == 4:
+        input_file = sys.argv[2]
+        output_file = sys.argv[3]
+    elif len(sys.argv) == 3:
+        input_file = sys.argv[2]
+        output_file = input_file + ".huff"
+    else:
+        print("Usage: python3 main.py -e <input_file> <output_file>")
+        sys.exit(1)
+    try:
+        encode(input_file, output_file)
+    except FileNotFoundError:
+        print(str.format("Error: File {} not found", input_file))
+        sys.exit(1)
+    except IOError:
+        print("IOError\nPlease ensure you have the R/W access to the file")
+        sys.exit(1)
 
-given_string = "Hello World"
-given_Freq = [10, 23, 12, 3, 4, 8, 11, 18]
-given_chars = ['H', 'e', 'l', 'o', ' ', 'W', 'r', 'd']
+elif mode == "-d":
+    if len(sys.argv) == 4:
+        input_file = sys.argv[2]
+        output_file = sys.argv[3]
+    elif len(sys.argv) == 3:
+        input_file = sys.argv[2]
+        output_file = input_file + ".decoded"
+    else:
+        print("Usage: python3 main.py -d <input_file> <output_file>")
+        sys.exit(1)
 
-tree2 = c.CreateHuffmanTree2(given_chars, given_Freq)
-encoded2 = c.Encode2(given_chars, given_Freq, given_string)
-print(encoded2)
-decoded2 = c.Decode2(given_chars, given_Freq, encoded2)
-decoded3 = c.Decode(tree2, encoded2)
+    try:
+        decode(input_file, output_file)
+    except FileNotFoundError:
+        print(str.format("Error: File {} not found", input_file))
+        sys.exit(1)
+    except IOError:
+        print("IOError\nPlease ensure you have the R/W access to the file")
+        sys.exit(1)
 
-print(decoded2)
-print(decoded3)
+elif mode == "-h":
+    print('Usage for encode: python3 main.py -e <input_file> -optional<output_file>\n'+\
+    'Usage for decode: python3 main.py -d <input_file> -optional<output_file>\n'+\
+    'Default output file is \n'+\
+    '\tdecode : <input_file>.huff and <input_file>.huff.ch2freq\n'+\
+    '\tencode : <input_file>.encoded\n')
+    sys.exit(0)
 
-print(decoded2 == given_string)
-print(decoded3 == given_string)
+else:
+    print("Bad argv\nuse \'python3 main.py -h\' for help")
+    sys.exit(1)
